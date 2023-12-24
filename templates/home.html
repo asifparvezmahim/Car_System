@@ -1,0 +1,94 @@
+{%extends "base.html"%} {%load static%} {%block style%}
+
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .count{
+    color:red;
+    text-weight:bold;
+  }
+  
+  .name {
+    font-weight: bold;
+    color: red;
+  }
+
+  .details {
+    margin-top: 150px;
+  }
+</style>
+{%endblock%} {%block content%}
+<div class="cover_details d-flex flex-wrap mt-2">
+  <div class="details col-5 mx-3">
+    <h1>Welcome To <span class="name">CAR GALLERY</span></h1>
+    <br />
+    <h3>Buy Your Desire Car to Fulfil Your Dream</h3>
+    <p class="mt-3">
+      We are always here to give you a best service always . You can trust us
+      and can get a good experience with us
+    </p>
+  </div>
+
+  <div class="cover col-4 d-flex flex-wrap">
+    <img src="{%static "cov.webp"%}" alt="ups">
+  </div>
+</div>
+<h2 class="d-flex justify-content-center mt-4">Select Brand Name</h2>
+<div class="d-flex flex-wrap justify-content-center">
+  <div></div>
+  <div class="mt-3">
+    <a class="text-decoration-none text-white btn btn-dark" href="{%url "homepage"%}">All</a>
+    {%for brnd in brand%}
+    <input
+      type="checkbox"
+      class="btn-check"
+      id="{{brnd.id}}"
+      autocomplete="off"
+    />
+     
+    
+    <label class="btn btn-dark" for="{{brnd.id}}">
+      <a class="text-decoration-none text-white" href="{%url "brand_wise_post" brnd.slug%}">{{brnd.Name}}</a>
+    </label>
+    {%endfor%}
+  </div>
+</div>
+
+<div>
+  <h4 class="d-flex justify-content-center mt-3 count">{{data|length}} Car Found</h4>
+  <div class="d-flex flex-wrap justify-content-center mx-5">
+    {% for car in data %}
+    <div class="col-sm-3 m-3">
+      <img src="{{car.images.url}}" class="card-img-top" alt="" />
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">{{car.Car_Name}}</h3>
+          <p class="card-text">{{car.Description | truncatewords:10}}</p>
+          <h5>
+            Brand Name :
+            <a class="btn btn-success" disabled>{{car.brand.Name}}</a>
+          </h5>
+
+          <h5>Price : {{car.Price}}</h5>
+          <h5>Quantity : {{car.Quantity}}</h5>
+          {%if request.user.is_authenticated%}
+            <div class="d-flex justify-content-around mt-3">
+              <a href="#" class="btn btn-primary">Buy Now</a>
+              <a href="{%url "detail_class" car.id %}" class="btn btn-primary">Details</a>
+            </div>
+          {%else%}
+          <div class="d-flex justify-content-center mt-3">
+            <a href="{%url "detail_class" car.id %}" class="btn btn-primary">Details</a>
+          </div>
+          {%endif%}
+          
+        </div>
+      </div>
+    </div>
+    {%endfor%}
+  </div>
+</div>
+
+{%endblock%}

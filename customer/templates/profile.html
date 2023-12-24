@@ -1,0 +1,17 @@
+{% extends "base.html"%}  {%block content%}
+<h1 class="mx-3">Profile Page</h1>
+<div class="row mt-4 mx-2">
+    <div class="col-sm-3">
+      <h4>Edit Profile</h4>
+      <div class="mb-2"><a href="{%url "edit_profile"%}">Edit Your Informations</a></div>
+      <div><a href="{%url "pass_change"%}">Change Your Password</a></div>
+    </div>
+  
+    <div class="col-sm-9">
+      <h3>History</h3>
+      <div>
+        {{data}}
+      </div>
+    </div>
+  </div>
+{%endblock%}
